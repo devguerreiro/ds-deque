@@ -96,8 +96,11 @@ class Deque:
         while last_node.next is not None:
             last_node = last_node.next
         new_last = last_node.previous
-        last_node.previous = None
-        new_last.next = None
+        if new_last is None:
+            self._initial = new_last
+        else:
+            last_node.previous = None
+            new_last.next = None
         self._size -= 1
 
     def pop_left(self):
