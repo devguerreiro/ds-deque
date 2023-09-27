@@ -106,6 +106,17 @@ class Deque:
         new_last.next = None
         self._size -= 1
 
+    def pop_left(self):
+        if self._size == 0:
+            raise IndexError()
+
+        first_node: Node = self._initial
+        new_first = first_node.next
+        first_node.next = None
+        new_first.previous = None
+        self._initial = new_first
+        self._size -= 1
+
     def index(self, value: int):
         index = 0
         node = self._initial
@@ -256,3 +267,10 @@ if __name__ == "__main__":
     assert len(deque3) == 5
 
     assert deque3[-1] == 11
+
+    # pop from left
+    deque3.pop_left()
+
+    assert len(deque3) == 4
+
+    assert deque3[0] == 14
