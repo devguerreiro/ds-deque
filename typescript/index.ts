@@ -106,6 +106,25 @@ export class Deque {
         }
     }
 
+    pop() {
+        if (this.size === 0) {
+            throw new Error();
+        }
+
+        let lastNode = this.initial as Node;
+        while (lastNode.next !== null) {
+            lastNode = lastNode.next;
+        }
+        const newLast = lastNode.previous;
+        if (newLast === null) {
+            this.initial = newLast;
+        } else {
+            lastNode.previous = null;
+            newLast.next = null;
+        }
+        this.size--;
+    }
+
     get(index: number) {
         const node = this.getNode(index);
         return node.value;
