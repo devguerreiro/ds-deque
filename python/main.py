@@ -64,12 +64,12 @@ class Deque:
             self._size += 1
 
     def extend(self, values: List[int]):
-        if self._size == 0:
+        if self._initial is None:
             self._initial = Node(values[0])
             self._size += 1
             self._extend(values[1:], self._initial)
         else:
-            last_node: Node = self._initial
+            last_node = self._initial
             while last_node.next is not None:
                 last_node = last_node.next
             self._extend(values, last_node)
