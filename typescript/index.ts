@@ -125,6 +125,21 @@ export class Deque {
         this.size--;
     }
 
+    popLeft() {
+        if (this.size === 0) {
+            throw new Error();
+        }
+
+        const firstNode = this.initial as Node;
+        const newFirst = firstNode.next;
+        if (newFirst !== null) {
+            firstNode.next = null;
+            newFirst.previous = null;
+        }
+        this.initial = newFirst;
+        this.size--;
+    }
+
     get(index: number) {
         const node = this.getNode(index);
         return node.value;
