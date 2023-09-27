@@ -237,37 +237,46 @@ if __name__ == "__main__":
 
     deque3 = Deque()
 
+    # extend to left from empty deque
+    deque3.extend_left([13, 14, 15])
+
+    assert len(deque3) == 3
+
+    assert deque3[2] == 13
+    assert deque3[1] == 14
+    assert deque3[0] == 15
+
+    # extend to left
+    deque3.extend_left([1, 2, 3])
+
+    assert len(deque3) == 6
+
+    assert deque3[2] == 1
+    assert deque3[1] == 2
+    assert deque3[0] == 3
+
     # add to left
     deque3.append_left(10)
     deque3.append_left(11)
     deque3.append_left(12)
 
-    assert len(deque3) == 3
+    assert len(deque3) == 9
 
     # check getitem
     assert deque3[0] == 12
     assert deque3[1] == 11
     assert deque3[2] == 10
 
-    # extend to left
-    deque3.extend_left([13, 14, 15])
-
-    assert len(deque3) == 6
-
-    assert deque3[2] == 13
-    assert deque3[1] == 14
-    assert deque3[0] == 15
-
     # pop from right
     deque3.pop()
 
-    assert len(deque3) == 5
+    assert len(deque3) == 8
 
-    assert deque3[-1] == 11
+    assert deque3[-1] == 14
 
     # pop from left
     deque3.pop_left()
 
-    assert len(deque3) == 4
+    assert len(deque3) == 7
 
-    assert deque3[0] == 14
+    assert deque3[0] == 11
