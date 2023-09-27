@@ -1,4 +1,4 @@
-from typing import TypeVar
+from typing import List, TypeVar
 
 TNode = TypeVar("TNode", bound="Node")
 
@@ -12,7 +12,7 @@ class Node:
         self.value = value
 
 
-class LinkedList:
+class Deque:
     _initial: Node | None = None
     _size: int = 0
 
@@ -41,6 +41,24 @@ class LinkedList:
             last_node.next = new_node
         self._size += 1
 
+    def _extend(self, values: List[int], last_node: Node):
+        for v in values:
+            new_node = Node(v)
+            last_node.next = new_node
+            last_node = new_node
+            self._size += 1
+
+    def extend(self, values: List[int]):
+        if self._size == 0:
+            self._initial = Node(values[0])
+            self._size += 1
+            self._extend(values[1:], self._initial)
+        else:
+            last_node: Node = self._initial
+            while last_node.next is not None:
+                last_node = last_node.next
+            self._extend(values, last_node)
+
     def index(self, value: int):
         index = 0
         node = self._initial
@@ -50,39 +68,6 @@ class LinkedList:
             node = node.next
             index += 1
         return -1
-
-    def insert(self, index: int, value: int):
-        new_node = Node(value)
-        if index == 0:
-            new_node.next = self._initial
-            self._initial = new_node
-        else:
-            previous_node = self._get_node(index - 1)
-            new_node.next = previous_node.next
-            previous_node.next = new_node
-        self._size += 1
-
-    def remove(self, value: int):
-        if self._size == 0:
-            return ValueError()
-        if self._initial.value == value:
-            aux = self._initial.next
-            self._initial.next = None
-            self._initial = aux
-            self._size -= 1
-            return True
-        else:
-            previous_node = self._initial
-            current_node = previous_node.next
-            while current_node is not None:
-                if current_node.value == value:
-                    previous_node.next = current_node.next
-                    current_node.next = None
-                    self._size -= 1
-                    return True
-                previous_node = current_node
-                current_node = current_node.next
-            return False
 
     def __len__(self):
         return self._size
@@ -99,128 +84,97 @@ class LinkedList:
 
 
 if __name__ == "__main__":
-    linked_list = LinkedList()
+    deque = Deque()
 
     BIG_INDEX = 2**100
 
-    linked_list.append(10)
-    linked_list.append(11)
-    linked_list.append(12)
+    # add to right
+    deque.append(10)
+    deque.append(11)
+    deque.append(12)
 
-    # check length
-    assert linked_list._size == 3
-    assert len(linked_list) == 3
+    assert len(deque) == 3
 
     # check getitem
-    assert linked_list[0] == 10
-    assert linked_list[1] == 11
-    assert linked_list[2] == 12
+    assert deque[0] == 10
+    assert deque[1] == 11
+    assert deque[2] == 12
+
+    deque2 = Deque()
+
+    # extend to right from empty deque
+    deque2.extend([1, 2, 3])
+
+    assert len(deque2) == 3
+
+    assert deque2[0] == 1
+    assert deque2[1] == 2
+    assert deque2[2] == 3
 
     # check inverted getitem
-    assert linked_list[-1] == 12
-    assert linked_list[-2] == 11
-    assert linked_list[-3] == 10
+    assert deque[-1] == 12
+    assert deque[-2] == 11
+    assert deque[-3] == 10
 
     # check index
-    assert linked_list.index(10) == 0
-    assert linked_list.index(11) == 1
-    assert linked_list.index(12) == 2
+    assert deque.index(10) == 0
+    assert deque.index(11) == 1
+    assert deque.index(12) == 2
 
     # check index of inexistent
-    assert linked_list.index(BIG_INDEX) == -1
+    assert deque.index(BIG_INDEX) == -1
 
     # check getitem of an index bigger than length
     try:
-        linked_list[BIG_INDEX]
+        deque[BIG_INDEX]
         raise AssertionError()
     except Exception as e:
         assert isinstance(e, IndexError)
 
     # check getitem of an index smaller than negative length
     try:
-        linked_list[-BIG_INDEX]
+        deque[-BIG_INDEX]
         raise AssertionError()
     except Exception as e:
         assert isinstance(e, IndexError)
 
     # check setitem
-    linked_list[0] = 20
-    linked_list[1] = 21
-    linked_list[2] = 22
+    deque[0] = 20
+    deque[1] = 21
+    deque[2] = 22
 
-    assert linked_list[0] == 20
-    assert linked_list[1] == 21
-    assert linked_list[2] == 22
+    assert deque[0] == 20
+    assert deque[1] == 21
+    assert deque[2] == 22
 
     # check inverted setitem
-    linked_list[-1] = 32
-    linked_list[-2] = 31
-    linked_list[-3] = 30
+    deque[-1] = 32
+    deque[-2] = 31
+    deque[-3] = 30
 
-    assert linked_list[2] == 32
-    assert linked_list[1] == 31
-    assert linked_list[0] == 30
+    assert deque[2] == 32
+    assert deque[1] == 31
+    assert deque[0] == 30
 
     # check setitem of an index bigger than length
     try:
-        linked_list[BIG_INDEX] = 1
+        deque[BIG_INDEX] = 1
         raise AssertionError()
     except Exception as e:
         assert isinstance(e, IndexError)
 
     # check setitem of an index smaller than negative length
     try:
-        linked_list[-BIG_INDEX] = 1
+        deque[-BIG_INDEX] = 1
         raise AssertionError()
     except Exception as e:
         assert isinstance(e, IndexError)
 
-    # check insert before initial
-    aux = linked_list[0]
-    linked_list.insert(0, 150)
-    assert linked_list[0] == 150
-    assert linked_list[1] == aux
-    assert len(linked_list) == 4
+    # extend to right
+    deque.extend([13, 14, 15])
 
-    # check insert in the middle
-    aux = linked_list[2]
-    linked_list.insert(2, 232)
-    assert linked_list[2] == 232
-    assert linked_list[3] == aux
-    assert len(linked_list) == 5
+    assert len(deque) == 6
 
-    # check insert after last
-    aux = linked_list[len(linked_list) - 1]
-    linked_list.insert(len(linked_list), 345)
-    assert linked_list[len(linked_list) - 1] == 345
-    assert linked_list[len(linked_list) - 2] == aux
-    assert len(linked_list) == 6
-
-    linked_list = LinkedList()
-
-    linked_list.append(10)
-    linked_list.append(20)
-    linked_list.append(30)
-    linked_list.append(40)
-    linked_list.append(50)
-
-    # remove the first item
-    aux = linked_list[1]
-    assert linked_list.remove(10)
-    assert linked_list[0] == aux
-    assert len(linked_list) == 4
-
-    # remove the middle item
-    aux = linked_list[2]
-    assert linked_list.remove(30)
-    assert linked_list[1] == aux
-    assert len(linked_list) == 3
-
-    # remove the last item
-    aux = linked_list[len(linked_list) - 2]
-    assert linked_list.remove(50)
-    assert linked_list[len(linked_list) - 1] == aux
-    assert len(linked_list) == 2
-
-    # remove inexistent item
-    assert not linked_list.remove(30)
+    assert deque[3] == 13
+    assert deque[4] == 14
+    assert deque[5] == 15
