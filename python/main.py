@@ -32,10 +32,10 @@ class Deque:
 
     def append(self, value: int):
         new_node = Node(value)
-        if self._size == 0:
+        if self._initial is None:
             self._initial = new_node
         else:
-            last_node: Node = self._initial
+            last_node = self._initial
             while last_node.next is not None:
                 last_node = last_node.next
             last_node.next = new_node
