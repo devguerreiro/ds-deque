@@ -45,6 +45,22 @@ export class Deque {
         this.size++;
     }
 
+    appendLeft(value: number): void {
+        const newNode = new Node(value);
+        if (this.size === 0) {
+            this.initial = newNode;
+        } else {
+            let firstNode = this.initial as Node;
+            while (firstNode.previous !== null) {
+                firstNode = firstNode.previous;
+            }
+            firstNode.previous = newNode;
+            newNode.next = firstNode;
+            this.initial = newNode;
+        }
+        this.size++;
+    }
+
     get(index: number) {
         const node = this.getNode(index);
         return node.value;
