@@ -109,8 +109,9 @@ class Deque:
 
         first_node: Node = self._initial
         new_first = first_node.next
-        first_node.next = None
-        new_first.previous = None
+        if new_first is not None:
+            first_node.next = None
+            new_first.previous = None
         self._initial = new_first
         self._size -= 1
 
