@@ -114,17 +114,6 @@ if __name__ == "__main__":
     assert deque[1] == 11
     assert deque[2] == 12
 
-    deque2 = Deque()
-
-    # extend to right from empty deque
-    deque2.extend([1, 2, 3])
-
-    assert len(deque2) == 3
-
-    assert deque2[0] == 1
-    assert deque2[1] == 2
-    assert deque2[2] == 3
-
     # check inverted getitem
     assert deque[-1] == 12
     assert deque[-2] == 11
@@ -184,14 +173,25 @@ if __name__ == "__main__":
     except Exception as e:
         assert isinstance(e, IndexError)
 
+    deque2 = Deque()
+
+    # extend to right from empty deque
+    deque2.extend([1, 2, 3])
+
+    assert len(deque2) == 3
+
+    assert deque2[0] == 1
+    assert deque2[1] == 2
+    assert deque2[2] == 3
+
     # extend to right
-    deque.extend([13, 14, 15])
+    deque2.extend([13, 14, 15])
 
-    assert len(deque) == 6
+    assert len(deque2) == 6
 
-    assert deque[3] == 13
-    assert deque[4] == 14
-    assert deque[5] == 15
+    assert deque2[3] == 13
+    assert deque2[4] == 14
+    assert deque2[5] == 15
 
     deque3 = Deque()
 
