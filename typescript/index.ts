@@ -100,9 +100,9 @@ export class Deque {
         if (this.initial === null) {
             this.initial = new Node(values[0]);
             this.size++;
-            this._extend(values.slice(1), this.initial);
+            this._extendLeft(values.slice(1), this.initial);
         } else {
-            this._extend(values, this.initial);
+            this._extendLeft(values, this.initial);
         }
     }
 
@@ -280,18 +280,18 @@ deque2.extend([1, 2, 3]);
 assert.equal(deque2.length, 3);
 
 // check getitem
-assert.equal(deque2[0], 1);
-assert.equal(deque2[1], 2);
-assert.equal(deque2[2], 3);
+assert.equal(deque2.get(0), 1);
+assert.equal(deque2.get(1), 2);
+assert.equal(deque2.get(2), 3);
 
 // extend to right
 deque2.extend([13, 14, 15]);
 
 assert.equal(deque2.length, 6);
 
-assert.equal(deque2[3], 15);
-assert.equal(deque2[4], 14);
-assert.equal(deque2[5], 13);
+assert.equal(deque2.get(3), 13);
+assert.equal(deque2.get(4), 14);
+assert.equal(deque2.get(5), 15);
 
 const deque3 = new Deque();
 
@@ -300,18 +300,18 @@ deque3.extendLeft([13, 14, 15]);
 
 assert.equal(deque3.length, 3);
 
-assert.equal(deque3[2], 13);
-assert.equal(deque3[1], 14);
-assert.equal(deque3[0], 15);
+assert.equal(deque3.get(2), 13);
+assert.equal(deque3.get(1), 14);
+assert.equal(deque3.get(0), 15);
 
 //extend to left
 deque3.extendLeft([1, 2, 3]);
 
 assert.equal(deque3.length, 6);
 
-assert.equal(deque3[2], 1);
-assert.equal(deque3[1], 2);
-assert.equal(deque3[0], 3);
+assert.equal(deque3.get(2), 1);
+assert.equal(deque3.get(1), 2);
+assert.equal(deque3.get(0), 3);
 
 // add to left
 deque3.appendLeft(10);
@@ -321,20 +321,20 @@ deque3.appendLeft(12);
 assert.equal(deque3.length, 9);
 
 // check getitem
-assert.equal(deque3[0], 12);
-assert.equal(deque3[1], 11);
-assert.equal(deque3[2], 10);
+assert.equal(deque3.get(0), 12);
+assert.equal(deque3.get(1), 11);
+assert.equal(deque3.get(2), 10);
 
 // pop from right
 deque3.pop();
 
 assert.equal(deque3.length, 8);
 
-assert.equal(deque3[-1], 14);
+assert.equal(deque3.get(-1), 14);
 
 // pop from left
 deque3.popLeft();
 
 assert.equal(deque3.length, 7);
 
-assert.equal(deque3[0], 11);
+assert.equal(deque3.get(0), 11);
