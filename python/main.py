@@ -44,14 +44,14 @@ class Deque:
 
     def append_left(self, value: int):
         new_node = Node(value)
-        if self._size == 0:
+        if self._initial is None:
             self._initial = new_node
         else:
-            last_node: Node = self._initial
-            while last_node.previous is not None:
-                last_node = last_node.previous
-            last_node.previous = new_node
-            new_node.next = last_node
+            first_node = self._initial
+            while first_node.previous is not None:
+                first_node = first_node.previous
+            first_node.previous = new_node
+            new_node.next = first_node
             self._initial = new_node
         self._size += 1
 
