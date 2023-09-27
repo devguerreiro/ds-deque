@@ -1,0 +1,11 @@
+{
+  "name": "linkedlist",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:devguerreiro/linkedlist.git",
+  "author": "Luis Guerreiro <luiscvlh11@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.6.2"
+  }
+}
