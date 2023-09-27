@@ -16,7 +16,7 @@ class Deque:
     _initial: Node | None = None
     _size: int = 0
 
-    def _get_node(self, index: int, direction: str = "right"):
+    def _get_node(self, index: int):
         _index = self._size + index if index < 0 else index
         if _index < 0:
             raise IndexError()
@@ -24,10 +24,7 @@ class Deque:
         for _ in range(_index):
             if node is None:
                 raise IndexError()
-            elif direction == "right":
-                node = node.next
-            else:
-                node = node.previous
+            node = node.next
         return node
 
     def append(self, value: int):
