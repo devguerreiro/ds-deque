@@ -39,6 +39,7 @@ class Deque:
             while last_node.next is not None:
                 last_node = last_node.next
             last_node.next = new_node
+            new_node.previous = last_node
         self._size += 1
 
     def append_left(self, value: int):
