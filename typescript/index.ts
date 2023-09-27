@@ -85,6 +85,27 @@ export class Deque {
         }
     }
 
+    private _extendLeft(values: number[], firstNode: Node) {
+        for (let v of values) {
+            const newFirst = new Node(v);
+            firstNode.previous = newFirst;
+            newFirst.next = firstNode;
+            firstNode = newFirst;
+            this.initial = newFirst;
+            this.size++;
+        }
+    }
+
+    extendLeft(values: number[]) {
+        if (this.initial === null) {
+            this.initial = new Node(values[0]);
+            this.size++;
+            this._extend(values.slice(1), this.initial);
+        } else {
+            this._extend(values, this.initial);
+        }
+    }
+
     get(index: number) {
         const node = this.getNode(index);
         return node.value;
