@@ -41,6 +41,19 @@ class Deque:
             last_node.next = new_node
         self._size += 1
 
+    def append_left(self, value: int):
+        new_node = Node(value)
+        if self._size == 0:
+            self._initial = new_node
+        else:
+            last_node: Node = self._initial
+            while last_node.previous is not None:
+                last_node = last_node.previous
+            last_node.previous = new_node
+            new_node.next = last_node
+            self._initial = new_node
+        self._size += 1
+
     def _extend(self, values: List[int], last_node: Node):
         for v in values:
             new_node = Node(v)
@@ -178,3 +191,17 @@ if __name__ == "__main__":
     assert deque[3] == 13
     assert deque[4] == 14
     assert deque[5] == 15
+
+    deque3 = Deque()
+
+    # add to left
+    deque3.append_left(10)
+    deque3.append_left(11)
+    deque3.append_left(12)
+
+    assert len(deque3) == 3
+
+    # check getitem
+    assert deque3[0] == 12
+    assert deque3[1] == 11
+    assert deque3[2] == 10
