@@ -59,6 +59,7 @@ class Deque:
         for v in values:
             new_node = Node(v)
             last_node.next = new_node
+            new_node.previous = last_node
             last_node = new_node
             self._size += 1
 
@@ -72,6 +73,26 @@ class Deque:
             while last_node.next is not None:
                 last_node = last_node.next
             self._extend(values, last_node)
+
+    def _extend_left(self, values: List[int], last_node: Node):
+        for v in values:
+            new_node = Node(v)
+            last_node.previous = new_node
+            new_node.next = last_node
+            last_node = new_node
+            self._initial = new_node
+            self._size += 1
+
+    def extend_left(self, values: List[int]):
+        if self._size == 0:
+            self._initial = Node(values[0])
+            self._size += 1
+            self._extend_left(values[1:], self._initial)
+        else:
+            last_node: Node = self._initial
+            while last_node.previous is not None:
+                last_node = last_node.previous
+            self._extend_left(values, last_node)
 
     def index(self, value: int):
         index = 0
@@ -180,6 +201,7 @@ if __name__ == "__main__":
 
     assert len(deque2) == 3
 
+    # check getitem
     assert deque2[0] == 1
     assert deque2[1] == 2
     assert deque2[2] == 3
@@ -206,3 +228,12 @@ if __name__ == "__main__":
     assert deque3[0] == 12
     assert deque3[1] == 11
     assert deque3[2] == 10
+
+    # extend to left
+    deque3.extend_left([13, 14, 15])
+
+    assert len(deque3) == 6
+
+    assert deque3[2] == 13
+    assert deque3[1] == 14
+    assert deque3[0] == 15
