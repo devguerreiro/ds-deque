@@ -1,0 +1,4 @@
+root=true
+
+[*.{ts,py}]
+indent_size=4
