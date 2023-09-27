@@ -74,25 +74,22 @@ class Deque:
                 last_node = last_node.next
             self._extend(values, last_node)
 
-    def _extend_left(self, values: List[int], last_node: Node):
+    def _extend_left(self, values: List[int], first_node: Node):
         for v in values:
-            new_node = Node(v)
-            last_node.previous = new_node
-            new_node.next = last_node
-            last_node = new_node
-            self._initial = new_node
+            new_first = Node(v)
+            first_node.previous = new_first
+            new_first.next = first_node
+            first_node = new_first
+            self._initial = new_first
             self._size += 1
 
     def extend_left(self, values: List[int]):
-        if self._size == 0:
+        if self._initial is None:
             self._initial = Node(values[0])
             self._size += 1
             self._extend_left(values[1:], self._initial)
         else:
-            last_node: Node = self._initial
-            while last_node.previous is not None:
-                last_node = last_node.previous
-            self._extend_left(values, last_node)
+            self._extend_left(values, self._initial)
 
     def pop(self):
         if self._size == 0:
